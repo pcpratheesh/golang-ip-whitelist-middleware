@@ -1,8 +1,6 @@
 package options
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/labstack/echo/v4"
 )
@@ -10,11 +8,7 @@ import (
 type Options func()
 
 type FallbackHandlerInterface interface {
-	func(ctx *gin.Context) | func(ctx echo.Context) error
-}
-
-type FallBackHandlerType interface {
-	*gin.Context | *echo.Context
+	func(ctx *gin.Context, clientIP string) | func(ctx echo.Context, clientIP string) error
 }
 
 // WhiteLists
@@ -36,11 +30,5 @@ func WithWhiteLists(ips []string) Options {
 func WithFallbackHandler[T FallbackHandlerInterface](handler T) Options {
 	return func() {
 		FallBackHandler = handler
-	}
-}
-
-func TriggerFallbackHandler[T FallbackHandlerInterface, C FallBackHandlerType](ctx C) {
-	if fn, ok := FallBackHandler.(T); ok {
-		fmt.Printf("fn--- %T", fn)
 	}
 }
