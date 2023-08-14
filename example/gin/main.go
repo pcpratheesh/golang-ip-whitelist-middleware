@@ -20,7 +20,7 @@ func main() {
 	r := gin.Default()
 
 	var opts = []options.Options{
-		options.WithWhiteLists([]string{
+		options.WithWhiteListIPs([]string{
 			"*",
 		}),
 		options.SetFallbackHandler(

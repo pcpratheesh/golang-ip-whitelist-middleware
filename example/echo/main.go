@@ -18,7 +18,7 @@ var fallbackHandler = func(ctx echo.Context, clientIP string) error {
 func main() {
 	e := echo.New()
 	var opts = []options.Options{
-		options.WithWhiteLists([]string{
+		options.WithWhiteListIPs([]string{
 			"123",
 		}),
 		// options.SetFallbackHandler(

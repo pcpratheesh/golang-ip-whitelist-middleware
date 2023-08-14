@@ -26,8 +26,8 @@ var (
 	SuccessRedirectionCallback interface{}
 )
 
-// set the WhiteLists
-func WithWhiteLists(ips []string) Options {
+// set the WhiteLists IPs
+func WithWhiteListIPs(ips []string) Options {
 	return func() {
 		WhiteLists = ips
 	}

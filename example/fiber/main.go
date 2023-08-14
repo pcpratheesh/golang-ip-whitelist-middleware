@@ -18,12 +18,9 @@ var fallbackHandler = func(ctx *fiber.Ctx, clientIP string) error {
 func main() {
 	app := fiber.New()
 	var opts = []options.Options{
-		options.WithWhiteLists([]string{
+		options.WithWhiteListIPs([]string{
 			"127.0.0.52",
 		}),
-		options.SetFallbackHandler(
-			options.FiberFallbackHandler(fallbackHandler),
-		),
 	}
 
 	app.Use(guard.IPAccessControlMiddleware(

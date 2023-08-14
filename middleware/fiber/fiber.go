@@ -2,6 +2,7 @@ package fiber
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/pcpratheesh/ip-guard-middleware/options"
@@ -10,7 +11,7 @@ import (
 
 var DefaultFallbackHandler = func(ctx *fiber.Ctx, clientIP string) error {
 	// run custom handler
-	return ctx.JSON(map[string]interface{}{
+	return ctx.Status(http.StatusForbidden).JSON(map[string]interface{}{
 		"message": fmt.Sprintf("You ip %v are not authorized to access this resource", clientIP),
 	})
 }
