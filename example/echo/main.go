@@ -5,21 +5,29 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/labstack/echo/v4"
-	ipgaurdmiddleware "github.com/pcpratheesh/ip-gaurd-middleware/echo"
-	"github.com/pcpratheesh/ip-gaurd-middleware/options"
+	guard "github.com/pcpratheesh/ip-guard-middleware/middleware/echo"
+	"github.com/pcpratheesh/ip-guard-middleware/options"
 )
+
+var fallbackHandler = func(ctx echo.Context, clientIP string) error {
+	return ctx.JSON(http.StatusForbidden, gin.H{
+		"message": "Not allowed to access.",
+	})
+}
 
 func main() {
 	e := echo.New()
-	e.Use(ipgaurdmiddleware.IPAccessControlMiddleware(
+	var opts = []options.Options{
 		options.WithWhiteLists([]string{
-			"*",
+			"123",
 		}),
-		options.WithFallbackHandler(func(ctx echo.Context, clientIP string) error {
-			return ctx.JSON(http.StatusForbidden, gin.H{
-				"message": "Not allowed to access.",
-			})
-		}),
+		// options.SetFallbackHandler(
+		// 	options.EchoFallbackHandler(fallbackHandler),
+		// ),
+	}
+
+	e.Use(guard.IPAccessControlMiddleware(
+		opts...,
 	))
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong")

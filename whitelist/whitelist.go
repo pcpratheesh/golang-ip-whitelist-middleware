@@ -3,7 +3,7 @@ package whitelist
 import (
 	"slices"
 
-	"github.com/pcpratheesh/ip-gaurd-middleware/options"
+	"github.com/pcpratheesh/ip-guard-middleware/options"
 )
 
 func CheckAllowedAccess(ips []string, clientIP string) bool {
